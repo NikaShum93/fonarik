@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Фонарик-просвет</title>
+  <meta charset="UTF-8">
+  <title>Фонарик Genially (внутри сцены)</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       background: transparent;
       overflow: hidden;
-      cursor: none;
     }
 
-    .darkness {
+    #scene-container {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      background: transparent; /* Сделай тут фон, если нужно */
+    }
+
+    #darkness {
       position: absolute;
       top: 0;
       left: 0;
-      height: 100%;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.9); /* Темнота */
+      width: 1280px;
+      height: 720px;
       pointer-events: none;
-      mask-image: radial-gradient(circle 120px at center, transparent 0%, black 100%);
-      mask-position: -200px -200px;
-      mask-repeat: no-repeat;
-      -webkit-mask-image: radial-gradient(circle 120px at center, transparent 0%, black 100%);
-      -webkit-mask-position: -200px -200px;
+      z-index: 999;
+      background-color: rgba(0, 0, 0, 0.98);
+      --x: 640px;
+      --y: 360px;
+
+      -webkit-mask-image: radial-gradient(circle 100px at var(--x) var(--y), transparent 0%, black 100%);
       -webkit-mask-repeat: no-repeat;
+      mask-image: radial-gradient(circle 100px at var(--x) var(--y), transparent 0%, black 100%);
+      mask-repeat: no-repeat;
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
     }
   </style>
 </head>
 <body>
-  <div class="darkness" id="darkness"></div>
+  <div id="scene-container">
+    <div id="darkness"></div>
+  </div>
 
   <script>
     const darkness = document.getElementById("darkness");
+    const container = document.getElementById("scene-container");
 
-    document.addEventListener("mousemove", (e) => {
-      darkness.style.maskPosition = `${e.clientX}px ${e.clientY}px`;
-      darkness.style.webkitMaskPosition = `${e.clientX}px ${e.clientY}px`;
+    container.addEventListener("mousemove", (e) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      darkness.style.setProperty('--x', `${x}px`);
+      darkness.style.setProperty('--y', `${y}px`);
     });
   </script>
 </body>
 </html>
-
-
