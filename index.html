@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +9,7 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      cursor: none; /* Скрывает обычный курсор */
     }
 
     .dark-layer {
@@ -33,9 +33,16 @@
 
   <script>
     const mask = document.getElementById("mask");
+    
+    // Функция для отслеживания движения курсора
     document.addEventListener("mousemove", (e) => {
       mask.style.setProperty("--x", `${e.clientX}px`);
       mask.style.setProperty("--y", `${e.clientY}px`);
+    });
+    
+    // Плавная анимация для перемещения фонарика
+    document.addEventListener("mousemove", () => {
+      mask.style.transition = "all 0.1s ease";
     });
   </script>
 </body>
