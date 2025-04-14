@@ -10,6 +10,7 @@
       width: 100%;
       overflow: hidden;
       cursor: none; /* Скрывает обычный курсор */
+      background-color: black; /* Черный фон */
     }
 
     .dark-layer {
@@ -19,27 +20,42 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      background: radial-gradient(
-        circle 150px at var(--x, 50%) var(--y, 50%), 
-        rgba(0, 0, 0, 1) 0%,  /* Черный, непрозрачный */
-        rgba(0, 0, 0, 1) 100% /* Черный, непрозрачный */
-      );
+      background-color: rgba(0, 0, 0, 1); /* Полностью черный */
       z-index: 10;
+    }
+
+    .spotlight {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+      width: 200px;
+      height: 200px;
+      transform: translate(-50%, -50%);
     }
   </style>
 </head>
 <body>
   <div class="dark-layer" id="mask"></div>
+  <div class="spotlight" id="spotlight"></div>
 
   <script>
+    const spotlight = document.getElementById("spotlight");
     const mask = document.getElementById("mask");
 
     // Обработка события движения мыши
     document.addEventListener("mousemove", (e) => {
-      mask.style.setProperty("--x", `${e.clientX}px`);
-      mask.style.setProperty("--y", `${e.clientY}px`);
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // Двигаем фокус (spotlight) и обновляем его позицию
+      spotlight.style.left = `${x}px`;
+      spotlight.style.top = `${y}px`;
+
+      // Обновляем маску с движением
+      mask.style.setProperty("--x", `${x}px`);
+      mask.style.setProperty("--y", `${y}px`);
     });
   </script>
 </body>
 </html>
-
